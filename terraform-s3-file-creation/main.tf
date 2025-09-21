@@ -20,7 +20,7 @@ resource "aws_s3_bucket" "script" {
 
 
 # Upload CSV to raw bucket
-resource "aws_s3_object" "my_file" {
+resource "aws_s3_object" "raw_file" {
   bucket = aws_s3_bucket.raw.id
   key    = "${var.subfolder}/${basename(var.local_file_path)}"
   source = var.local_file_path
@@ -28,12 +28,13 @@ resource "aws_s3_object" "my_file" {
 }
 
 # Upload Script to script bucket
-resource "aws_s3_object" "my_script" {
+resource "aws_s3_object" "glue_script" {
   bucket = aws_s3_bucket.script.id
   key    = "${var.script_subfolder}/${basename(var.script_location)}"
   source = var.script_location
   acl    = "private"
 }
+
 
 # Glue IAM Role
 resource "aws_iam_role" "glue_role" {
