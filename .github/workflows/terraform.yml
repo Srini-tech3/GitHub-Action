@@ -49,7 +49,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         working-directory: ./terraform-s3-file-creation
         run: terraform apply -auto-approve tfplan
-
+  
       - name: Get Terraform Output
         id: tf
         working-directory: ./terraform-s3-file-creation
