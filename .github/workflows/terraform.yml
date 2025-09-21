@@ -49,3 +49,39 @@ jobs:
         if: github.ref == 'refs/heads/main'
         working-directory: ./terraform-s3-file-creation
         run: terraform apply -auto-approve tfplan
+
+      - name: Get Terraform Output
+        id: tf
+        working-directory: ./terraform-s3-file-creation
+        run: echo "GLUE_JOB_NAME=$(terraform output -raw glue_job_name)" >> $GITHUB_ENV
+        
+      # 8️⃣ Trigger Glue Job
+      - name: Trigger Glue Job
+        run: |
+          RUN_ID=$(aws glue start-job-run \
+            --job-name $GLUE_JOB_NAME \
+            --region ${{ secrets.AWS_REGION }} \
+            --query 'JobRunId' --output text)
+          echo "Glue job started with run ID: $RUN_ID"
+          echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+
+      # 9️⃣ Wait for Glue Job Completion
+      - name: Wait for Glue Job Completion
+        run: |
+          STATUS=""
+          while [ "$STATUS" != "SUCCEEDED" ] && [ "$STATUS" != "FAILED" ]; do
+              sleep 30
+              STATUS=$(aws glue get-job-run \
+                --job-name $GLUE_JOB_NAME \
+                --run-id $RUN_ID \
+                --region ${{ secrets.AWS_REGION }} \
+                --query 'JobRun.JobRunState' --output text)
+              echo "Current status: $STATUS"
+          done
+          if [ "$STATUS" == "FAILED" ]; then
+              echo "❌ Glue job failed!"
+              exit 1
+          fi
+          echo "✅ Glue job completed successfully!"
+
+
