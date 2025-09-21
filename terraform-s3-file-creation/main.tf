@@ -116,7 +116,7 @@ resource "aws_glue_job" "etl_job" {
     "--DB_NAME"             = aws_glue_catalog_database.iceberg_db.name
     "--TABLE_NAME"          = "employee_data"
   }
-  glue_version       = "3.0"
+  glue_version       = "5.0"
   number_of_workers  = 2
   worker_type        = "G.1X"
 }

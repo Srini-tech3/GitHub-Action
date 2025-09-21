@@ -41,3 +41,4 @@ variable "script_subfolder" {
   type        = string
   description = "Subfolder in script S3 bucket for Glue scripts"
 }
+
