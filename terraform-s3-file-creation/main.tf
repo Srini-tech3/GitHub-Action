@@ -1,7 +1,3 @@
-provider "aws" {
-  region = var.aws_region
-}
-
 # Generate unique suffix
 resource "random_id" "suffix" {
   byte_length = 4
