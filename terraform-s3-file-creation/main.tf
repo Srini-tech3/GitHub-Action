@@ -88,7 +88,7 @@ resource "aws_glue_job" "etl_job" {
   role_arn = aws_iam_role.glue_role.arn
   command {
     name            = "glueetl"
-    script_location = "s3://${aws_s3_bucket.script.bucket}/${aws_s3_object.my_script.key}"
+    script_location = "s3://${aws_s3_bucket.script.bucket}/${aws_s3_object.glue_script.key}"
     python_version  = "3"
   }
   default_arguments = {

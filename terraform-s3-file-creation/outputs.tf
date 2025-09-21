@@ -17,12 +17,12 @@ output "script_bucket_name" {
 # Uploaded Objects
 output "uploaded_csv_key" {
   description = "S3 key of the uploaded CSV file"
-  value       = aws_s3_object.my_file.key
+  value       = aws_s3_object.raw_file.key
 }
 
 output "uploaded_script_key" {
   description = "S3 key of the uploaded Glue script"
-  value       = aws_s3_object.my_script.key
+  value       = aws_s3_object.glue_script.key
 }
 
 # Glue
