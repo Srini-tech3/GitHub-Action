@@ -29,7 +29,7 @@ spark.conf.set("spark.sql.catalog.glue_catalog.io-impl", "org.apache.iceberg.aws
 # ---------------------------
 # Read source data (dynamic)
 # ---------------------------
-file_path = f"s3://{args['SOURCE_BUCKET']}/csv/employee_data.csv"
+file_path = f"s3://{args['SOURCE_BUCKET']}/uploads/employee_data.csv"
 df = spark.read.csv(file_path, header=True, inferSchema=True)
 
 # ---------------------------
