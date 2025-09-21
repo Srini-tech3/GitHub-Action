@@ -36,7 +36,7 @@ resource "aws_s3_object" "glue_script" {
 }
 
 
-# Glue IAM Role
+# Glue Role
 resource "aws_iam_role" "glue_role" {
   name = "glue-role-sit"
   assume_role_policy = jsonencode({
@@ -48,6 +48,23 @@ resource "aws_iam_role" "glue_role" {
     }]
   })
 }
+
+# Attach AWS-managed policies
+resource "aws_iam_role_policy_attachment" "glue_policy" {
+  role       = aws_iam_role.glue_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
+}
+
+resource "aws_iam_role_policy_attachment" "s3_policy" {
+  role       = aws_iam_role.glue_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "glue_console" {
+  role       = aws_iam_role.glue_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSGlueConsoleFullAccess"
+}
+
 
 # Glue Database
 resource "aws_glue_catalog_database" "iceberg_db" {
