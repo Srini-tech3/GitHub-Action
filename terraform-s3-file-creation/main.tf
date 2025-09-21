@@ -48,22 +48,6 @@ resource "aws_iam_role" "glue_role" {
   })
 }
 
-# Attach S3 & Glue access
-resource "aws_iam_role_policy_attachment" "glue_policy" {
-  role       = aws_iam_role.glue_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
-}
-
-resource "aws_iam_role_policy_attachment" "s3_policy" {
-  role       = aws_iam_role.glue_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-}
-
-resource "aws_iam_role_policy_attachment" "glue_full_policy" {
-  role       = aws_iam_role.glue_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AWSGlueConsoleFullAccess"
-}
-
 # Glue Database
 resource "aws_glue_catalog_database" "iceberg_db" {
   name = "sit_iceberg_db"
