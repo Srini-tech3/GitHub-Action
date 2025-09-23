@@ -17,9 +17,6 @@ jobs:
       - name: Check AWS CLI version
         run: aws --version
 
-      - name: Get AWS STS Caller Identity
-        run: aws sts get-caller-identity
-
       - name: Check Terraform version
         run: terraform version
 
