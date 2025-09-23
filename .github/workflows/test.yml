@@ -1,0 +1,25 @@
+name: Pull Request Workflow
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  check-versions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check AWS CLI version
+        run: aws --version
+
+      - name: Get AWS STS Caller Identity
+        run: aws sts get-caller-identity
+
+      - name: Check Terraform version
+        run: terraform version
+
+      - name: Verify System Version
+        run: uname -a
